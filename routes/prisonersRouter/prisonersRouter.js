@@ -4,6 +4,18 @@ const db = require('./prisonersHelper.js');
 
 
 // ----- Routes -----
+router.get('/:id/skills', (req, res) => {
+    const id = req.params.id;
+
+    db.getPrisonerSkills(id)
+        .then(result => {
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        });
+});
+
 router.get('/:id', (req, res) => {
     const id = req.params.id;
 
@@ -15,6 +27,30 @@ router.get('/:id', (req, res) => {
             res.status(500).json(err);
         });
 });
+
+// router.get('/:id', (req, res) => {
+//     const { id } = req.params;
+  
+//     db('prisoners')
+//       .where('prisoner.id', id)
+//       .then(prisoner => {
+//         if (prisoner.length) {
+//           db('prisoners_skills as ps')
+//             .where({ prisonerId: id })
+//             .then(skills => {
+//               res.status(200).json({ prisoner, skills });
+//             })
+//             .catch(err => {
+//               res.status(500).json(err);
+//             });
+//         } else {
+//           res.status(404).json({ msg: "not found" });
+//         }
+//       })
+//       .catch(err => {
+//         res.status(500).json(err);
+//       });
+//   });
 
 router.get('/', (req, res) => {
     db.getAll()
