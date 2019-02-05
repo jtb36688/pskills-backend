@@ -49,14 +49,26 @@ router.post('/', protected, (req, res) => {
     }
 });
 
+// router.put('/:id', protected, (req, res) => {
+//     const changes = req.body;
+//     const id = req.params.id;
+//     const prisoner = db.getByPrisonerId(id);
+
+//     db.update(id, changes)
+//         .then(res => {
+//             res.status(200).json({ message: `Prisoner id ${prisoner.id} edited successfully`});
+//         })
+//         .catch(err => {
+//             res.status(500).json(err);
+//         });
+// });
 router.put('/:id', protected, (req, res) => {
     const changes = req.body;
     const id = req.params.id;
-    const prisoner = db.getByPrisonerId(id);
 
     db.update(id, changes)
-        .then(res => {
-            res.status(200).json({ message: `Prisoner id ${prisoner.id} edited successfully`});
+        .then(updatedPrisoner => {
+            res.status(202).send(updatedPrisoner);
         })
         .catch(err => {
             res.status(500).json(err);

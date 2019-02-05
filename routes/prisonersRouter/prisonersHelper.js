@@ -23,11 +23,17 @@ function insert(prisoner) {
         .insert(prisoner)
 };
 
+// function update(id, changes) {
+//     return db('prisoners')
+//         .where('id', id)
+//         .update(changes)
+// };
 function update(id, changes) {
     return db('prisoners')
-        .where('id', id)
-        .update(changes)
-};
+      .where('id', id)
+      .update(changes)
+      .then(count => (count > 0 ? this.getByPrisonerId(id) : null));
+  }
 
 function remove(id) {
     return db('prisoners')
