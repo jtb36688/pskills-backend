@@ -25,23 +25,7 @@ function getByPrisonId(id) {
 };
 
 function getAll() {
-    // return db('prisons')
-    //     .join('prisoners', 'prisoners.prisonId', 'prisons.id')
-
-    // return db('prisons')
-    //     .then(prisons => {
-    //         let countArray = [];
-
-    //         prisons.map(prison => {
-    //             let count = db('prisoners').count(prison.prisonId).then(() => {
-    //                 countArray.push(count)
-    //                 console.log(count);
-    //             });
-    //         })
-    //     })
-
-    return db('prisons as p')
-        .select('count(*)')
+    return db.raw(`SELECT p.*, (SELECT count(*) FROM prisoners as pr WHERE pr.prisonId = p.id) as totalPrisoners FROM prisons as p`)
 };
 
 function insert(prison) {
