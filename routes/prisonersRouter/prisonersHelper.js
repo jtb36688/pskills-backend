@@ -9,29 +9,36 @@ module.exports = {
 };
 
 function getByPrisonerId(id) {
-    let prisoner =  db('prisoners')
+
+    return db('prisoners')
         .where('prisoners.id', id)
         .first();
+    // let prisoner =  db('prisoners')
+    //     .where('prisoners.id', id)
+    //     .first();
 
-    let pSkills = db('prisoners_skills as ps')
-        .join('skills as s', 's.id', '=', 'ps.skillsId')
-        .select('s.name')
-        .where('ps.prisonerId', id)
-        .then(skills => skills.map(skill => {
-                return skill['name'];
-            })
-        );
+    // let pSkills = db('prisoners_skills as ps')
+    //     .join('skills as s', 's.id', '=', 'ps.skillsId')
+    //     .select('s.name')
+    //     .where('ps.prisonerId', id)
+    //     .then(skills => skills.map(skill => {
+    //             return skill['name'];
+    //         })
+    //     );
 
-    return Promise.all([prisoner, pSkills]).then(results => {
+    // return Promise.all([prisoner, pSkills]).then(results => {
         
-        let [prisoner, pSkills] = results;
+    //     let [prisoner, pSkills] = results;
         
-        let result = {...prisoner, skills: pSkills};
-        return result;
-    });
+    //     let result = {...prisoner, skills: pSkills};
+    //     return result;
+    // });
 };
 
 function getAllPrisoners() {
+    return db('prisoners')
+
+
     // return db('prisoners as p')
     //     .then(prisonerList => {
     //         prisonerList.map(prisoner => {

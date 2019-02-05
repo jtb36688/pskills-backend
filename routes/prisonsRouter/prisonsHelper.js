@@ -9,13 +9,39 @@ module.exports = {
 };
 
 function getByPrisonId(id) {
-    return db('prisons')
+    let prisonInfo = db('prisons')
         .where('prisons.id', id)
         .first();
+
+    let prisonersList = db('prisoners as p')
+        .where('p.prisonId', id)
+
+    return Promise.all([prisonInfo, prisonersList]).then(results => {
+        let [prisonInfo, prisonersList] = results;
+
+        let result = {...prisonInfo, prisoners: prisonersList};
+        return result;
+    });
 };
 
 function getAll() {
-    return db('prisons')
+    // return db('prisons')
+    //     .join('prisoners', 'prisoners.prisonId', 'prisons.id')
+
+    // return db('prisons')
+    //     .then(prisons => {
+    //         let countArray = [];
+
+    //         prisons.map(prison => {
+    //             let count = db('prisoners').count(prison.prisonId).then(() => {
+    //                 countArray.push(count)
+    //                 console.log(count);
+    //             });
+    //         })
+    //     })
+
+    return db('prisons as p')
+        .select('count(*)')
 };
 
 function insert(prison) {

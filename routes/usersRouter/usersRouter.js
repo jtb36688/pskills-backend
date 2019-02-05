@@ -2,8 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const db = require('../../data/dbConfig.js');
+
+router.use(cors());
 
 // ----- Routes -----
 router.post('/register', (req, res) => {
@@ -54,6 +57,7 @@ router.post('/login', (req, res) => {
 });
 
 // use this function as middleware on any routes that need to be protected
+// Moved this function to auth folder so that I can import it into any file I need.
 function protected(req, res, next) {
     const token = req.headers.authorization; //grabs the token from the request header. This token was originally sent to the client from the .post /api/login
 
@@ -72,15 +76,15 @@ function protected(req, res, next) {
 };
 
 // This probably isn't needed. Delete later.
-// router.get('/users', protected, (req, res) => {
-//     const department = req.decodedToken.department;
+router.get('/users', protected, (req, res) => {
+    const department = req.decodedToken.department;
 
-//     db('users')
-//         .select('id', 'username', 'password')
-//         .then(users => {
-//             res.json({ users, decodedToken: req.decodedToken });
-//         })
-//         .catch(err => res.send(err));
-// });
+    db('users')
+        .select('id', 'username', 'password')
+        .then(users => {
+            res.json({ users, decodedToken: req.decodedToken });
+        })
+        .catch(err => res.send(err));
+});
 
 module.exports = router;

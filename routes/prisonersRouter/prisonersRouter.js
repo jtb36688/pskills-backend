@@ -18,13 +18,13 @@ router.get('/:prisonerId', (req, res) => {
 
 
 router.get('/', (req, res) => {
-    // db.getAllPrisoners()
-    //     .then(prisoners => {
-    //         res.status(200).json(prisoners);
-    //     })
-    //     .catch(err => {
-    //         res.status(500).json(err);
-    //     });
+    db.getAllPrisoners()
+        .then(prisoners => {
+            res.status(200).json(prisoners);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        });
 
     // let prisonerArray = [];
 
