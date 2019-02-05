@@ -2,11 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const db = require('../../data/dbConfig.js');
-
-router.use(cors());
 
 // ----- Routes -----
 router.post('/register', (req, res) => {
