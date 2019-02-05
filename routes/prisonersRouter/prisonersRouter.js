@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('./prisonersHelper.js');
+const { protected } = require('../../auth/protected');
 
 
 // ----- Routes -----
@@ -31,7 +32,7 @@ router.get('/', (req, res) => {
         });
 });
 
-router.post('/', (req, res) => {
+router.post('/', protected, (req, res) => {
     const prisoner = req.body;
     const { name, prisonId } = req.body;
 
@@ -48,7 +49,7 @@ router.post('/', (req, res) => {
     }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', protected, (req, res) => {
     const changes = req.body;
     const id = req.params.id;
     const prisoner = db.getByPrisonerId(id);
@@ -62,7 +63,7 @@ router.put('/:id', (req, res) => {
         });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', protected, (req, res) => {
     const id = req.params.id;
 
     db.remove(id)

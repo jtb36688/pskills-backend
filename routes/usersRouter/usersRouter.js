@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../../data/dbConfig.js');
+const { protected } = require('../../auth/protected');
 
 // ----- Routes -----
 router.post('/register', (req, res) => {
@@ -53,35 +54,5 @@ router.post('/login', (req, res) => {
         .catch(err => res.status(500).json(err));
 });
 
-// use this function as middleware on any routes that need to be protected
-// Moved this function to auth folder so that I can import it into any file I need.
-function protected(req, res, next) {
-    const token = req.headers.authorization; //grabs the token from the request header. This token was originally sent to the client from the .post /api/login
-
-    if (token) {
-        jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-            if (err) {
-                res.status(401).json({ message: 'Invalid token' });
-            } else {
-                req.decodedToken = decodedToken;
-                next();
-            }
-        });
-    } else {
-        res.status(401).json({ message: 'no token provided' });
-    };
-};
-
-// This probably isn't needed. Delete later.
-router.get('/users', protected, (req, res) => {
-    const department = req.decodedToken.department;
-
-    db('users')
-        .select('id', 'username', 'password')
-        .then(users => {
-            res.json({ users, decodedToken: req.decodedToken });
-        })
-        .catch(err => res.send(err));
-});
 
 module.exports = router;
