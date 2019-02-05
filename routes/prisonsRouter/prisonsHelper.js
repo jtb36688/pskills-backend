@@ -33,11 +33,17 @@ function insert(prison) {
         .insert(prison)
 };
 
+// function update(id, changes) {
+//     return db('prisons')
+//         .where('id', id)
+//         .update(changes)
+// };
 function update(id, changes) {
     return db('prisons')
-        .where('id', id)
-        .update(changes)
-};
+      .where('id', id)
+      .update(changes)
+      .then(count => (count > 0 ? this.getByPrisonId(id) : null));
+  }
 
 function remove(id) {
     return db('prisons')

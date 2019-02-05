@@ -15,7 +15,7 @@ prisoners is an array of objects. Each object is a prisoner with:
 POST to /api/prisons
 - Creates a new prison
 - Must send in the body the name, location, and phoneNumber
-- returns the id
+- returns the an object with the updated prison info
 
 PUT to /api/prisons/:id
 - edits a prison with the req.params.id

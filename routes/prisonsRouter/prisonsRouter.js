@@ -40,8 +40,8 @@ router.put('/:id', protected, (req, res) => {
     const id = req.params.id;
 
     db.update(id, changes)
-        .then(res => {
-            res.status(202).json({ message: 'Prison successfully updated' });
+        .then(updatedPrison => {
+            res.status(202).send(updatedPrison);
         })
         .catch(err => {
             res.status(500).json(err);
