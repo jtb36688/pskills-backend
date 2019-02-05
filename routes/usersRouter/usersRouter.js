@@ -15,10 +15,10 @@ router.post('/register', (req, res) => {
     db('users')
         .insert(userInfo)
         .then(ids => {
-            res.status(201).json(ids);
+            res.status(201).json({ message: "You have successfully registered" });
         })
         .catch(err => {
-            res.status(500).json(err);
+            res.status(500).json({ error: "Something happened. You were not successfully registered" });
         });
 });
 
