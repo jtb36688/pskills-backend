@@ -4,12 +4,16 @@ const db = require('./prisonersHelper.js');
 
 
 // ----- Routes -----
-router.get('/:prisonerId', (req, res) => {
-    const id = req.params.prisonerId;
+router.get('/:id', (req, res) => {
+    const id = req.params.id;
 
     db.getByPrisonerId(id)
         .then(prisoner => {
-            res.status(200).json(prisoner);
+            if(prisoner) {
+                res.status(200).json(prisoner);
+            } else {
+                res.status(404).json({ message: 'The prisoner does not exist. Please try again.' });
+            }
         })
         .catch(err => {
             res.status(500).json(err);
@@ -25,39 +29,33 @@ router.get('/', (req, res) => {
         .catch(err => {
             res.status(500).json(err);
         });
-
-    // let prisonerArray = [];
-
-    // db.getAllPrisoners()
-    //     .then(prisonerList => {
-    //         prisonerList.map(prisoner => {
-    //             db.getByPrisonerId(prisoner.id)
-    //                 .then(newPrisoner => {
-    //                     prisonerArray.push(newPrisoner);
-    //                     // console.log('log2',prisonerArray);
-    //                 })
-    //         })
-    //     })
-    //     console.log(prisonerList)
-    //     res.status(200).json(prisonerArray);
 });
 
 router.post('/', (req, res) => {
-    const prisonerInfo = req.body;
+    const prisoner = req.body;
+    const { name, prisonId } = req.body;
 
-    db.insert(prisonerInfo)
-        .then(newPrisoner => {
-            res.status(201).json(newPrisoner)
-        })
+    if (name && prisonId) {
+        db.insert(prisoner)
+            .then(newPrisoner => {
+                res.status(201).json(newPrisoner)
+            })
+            .catch(err => {
+                res.status(500).json(err);
+            })
+    } else {
+        res.status(400).json({ message: "Prisoner not created. Please ensure you provide a name and prisonId." })
+    }
 });
 
 router.put('/:id', (req, res) => {
     const changes = req.body;
     const id = req.params.id;
+    const prisoner = db.getByPrisonerId(id);
 
     db.update(id, changes)
-        .then(updatedPrisoner => {
-            res.status(200).json(updatedPrisoner);
+        .then(res => {
+            res.status(200).json({ message: `Prisoner id ${prisoner.id} edited successfully`});
         })
         .catch(err => {
             res.status(500).json(err);
