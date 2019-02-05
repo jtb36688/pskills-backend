@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('./prisonersHelper.js');
-const { protected } = require('../../auth/protected');
+const { protect } = require('../../auth/protected');
 
 
 // ----- Routes -----
@@ -32,7 +32,7 @@ router.get('/', (req, res) => {
         });
 });
 
-router.post('/', protected, (req, res) => {
+router.post('/', protect, (req, res) => {
     const prisoner = req.body;
     const { name, prisonId } = req.body;
 
@@ -49,20 +49,7 @@ router.post('/', protected, (req, res) => {
     }
 });
 
-// router.put('/:id', protected, (req, res) => {
-//     const changes = req.body;
-//     const id = req.params.id;
-//     const prisoner = db.getByPrisonerId(id);
-
-//     db.update(id, changes)
-//         .then(res => {
-//             res.status(200).json({ message: `Prisoner id ${prisoner.id} edited successfully`});
-//         })
-//         .catch(err => {
-//             res.status(500).json(err);
-//         });
-// });
-router.put('/:id', protected, (req, res) => {
+router.put('/:id', protect, (req, res) => {
     const changes = req.body;
     const id = req.params.id;
 
@@ -75,7 +62,7 @@ router.put('/:id', protected, (req, res) => {
         });
 });
 
-router.delete('/:id', protected, (req, res) => {
+router.delete('/:id', protect, (req, res) => {
     const id = req.params.id;
 
     db.remove(id)

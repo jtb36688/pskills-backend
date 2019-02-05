@@ -27,6 +27,7 @@ PUT to /api/prisons/:id
 - edits a prison with the req.params.id
 - Only need to send the key/value that is changing
 - Must send JWT in header
+- Responds with the updated prison object
 
 DELETE to /api/prisons/:id
 - deletes the prison with the req.params.id
@@ -52,6 +53,7 @@ POST to /api/prisoners
 PUT to /api/prisoners/:id
 - edits the prisoner with the provided id
 - Must send JWT in header
+- Responds with the updated prisoner object
 
 DELETE to /api/prisoners/:id
 - deletes the prisoner with the provided id

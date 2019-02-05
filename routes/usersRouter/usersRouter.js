@@ -4,7 +4,6 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../../data/dbConfig.js');
-const { protected } = require('../../auth/protected');
 
 // ----- Routes -----
 router.post('/register', (req, res) => {
