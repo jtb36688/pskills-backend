@@ -3,12 +3,12 @@ const db = require('../../data/dbConfig.js');
 module.exports = {
     getAll,
     insert,
-    getById,
+    getByPrisonId,
     update,
     remove,
 };
 
-function getById(id) {
+function getByPrisonId(id) {
     return db('prisons')
         .where('prisons.id', id)
         .first();

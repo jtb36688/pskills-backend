@@ -1,15 +1,14 @@
 const db = require('../../data/dbConfig.js');
 
 module.exports = {
-    getAll,
+    getAllPrisoners,
     insert,
-    getById,
+    getByPrisonerId,
     update,
     remove,
-    getPrisonerSkills,
 };
 
-function getById(id) {
+function getByPrisonerId(id) {
     let prisoner =  db('prisoners')
         .where('prisoners.id', id)
         .first();
@@ -18,42 +17,54 @@ function getById(id) {
         .join('skills as s', 's.id', '=', 'ps.skillsId')
         .select('s.name')
         .where('ps.prisonerId', id)
+        .then(skills => skills.map(skill => {
+                return skill['name'];
+            })
+        );
 
     return Promise.all([prisoner, pSkills]).then(results => {
+        
         let [prisoner, pSkills] = results;
         
         let result = {...prisoner, skills: pSkills};
         return result;
-    })
-    
+    });
 };
 
-// function getPrisoners(id) {
-//     let query = db('prisoners as p').select('p.id', 'p.name', 'p.picture', 'p.prisonId', 'p.availability')
+function getAllPrisoners() {
+    // return db('prisoners as p')
+    //     .then(prisonerList => {
+    //         prisonerList.map(prisoner => {
+    //             getByPrisonerId(prisoner.id)
+    //                 .then(newPrisoner => {
+    //                     prisonerArray.push(newPrisoner);
+    //                     console.log(prisonerArray);
+    //                 })
+    //             })
+    //         })
+    // let prisonerArray = [];
 
-//     if (id) {
-//         query.where('p.id', id).first();
-
-//         const promises = [query, this.getPrisonerSkills(id)];
-
-//         return Promise.all(promises).then(function(results) {
-//             let [prisoner, skills] = results;
-
-//             if (!prisoner) {
-//                 return null;
-//             } else {
-//                 prisoner.skills = skills;
-
-//                 return skillsToBody(skill)
-//             }
-//         })
-//     }
-// };
-
-
-
-function getAll() {
-    return db('prisoners')
+    // let prisoners = db('prisoners as p')
+    //     .then(prisonerList => {
+    //         prisonerList.map(prisoner => {
+    //             getByPrisonerId(prisoner.id)
+    //                 .then(newPrisoner => {
+    //                     prisonerArray.push(newPrisoner);
+    //                     // console.log(prisonerArray);
+    //                 })
+    //             })
+    //             console.log(prisonerArray);
+    //         return prisonerArray;
+    //     })
+        
+    // return Promise.all([prisoners]).then(results => {
+    //     // console.log('hello');
+    //     console.log(results);
+    //     let [prisoners] = results;
+        
+    //     let result = {...prisoners};
+    //     return result;
+    // });
 };
 
 function insert(prisoner) {
@@ -73,17 +84,3 @@ function remove(id) {
         .where('id', id)
         .del();
 };
-
-function getPrisonerSkills (prisonerId) {
-    return db('prisoners_skills as ps')
-        .join('skills as s', 's.id', '=', 'ps.skillsId')
-        .select('s.name')
-        .where('ps.prisonerId', prisonerId)
-        .then(skills => skills.map(skill => skillsToBody(skill)));
-};
-
-// function skillsToBody(skill) {
-//     return {
-//         ...skill
-//     };
-// };

@@ -3,10 +3,10 @@ const router = express.Router();
 const db = require('./prisonsHelper.js');
 
 // ----- Routes -----
-router.get('/:id', (req, res) => {
-    const id = req.params.id;
+router.get('/:prisonId', (req, res) => {
+    const id = req.params.prisonId;
 
-    db.getById(id)
+    db.getByPrisonId(id)
         .then(prison => {
             res.status(200).json(prison);
         })

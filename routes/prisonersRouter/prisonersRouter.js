@@ -4,22 +4,10 @@ const db = require('./prisonersHelper.js');
 
 
 // ----- Routes -----
-router.get('/:id/skills', (req, res) => {
-    const id = req.params.id;
+router.get('/:prisonerId', (req, res) => {
+    const id = req.params.prisonerId;
 
-    db.getPrisonerSkills(id)
-        .then(result => {
-            res.status(200).json(result);
-        })
-        .catch(err => {
-            res.status(500).json(err);
-        });
-});
-
-router.get('/:id', (req, res) => {
-    const id = req.params.id;
-
-    db.getById(id)
+    db.getByPrisonerId(id)
         .then(prisoner => {
             res.status(200).json(prisoner);
         })
@@ -28,38 +16,30 @@ router.get('/:id', (req, res) => {
         });
 });
 
-// router.get('/:id', (req, res) => {
-//     const { id } = req.params;
-  
-//     db('prisoners')
-//       .where('prisoner.id', id)
-//       .then(prisoner => {
-//         if (prisoner.length) {
-//           db('prisoners_skills as ps')
-//             .where({ prisonerId: id })
-//             .then(skills => {
-//               res.status(200).json({ prisoner, skills });
-//             })
-//             .catch(err => {
-//               res.status(500).json(err);
-//             });
-//         } else {
-//           res.status(404).json({ msg: "not found" });
-//         }
-//       })
-//       .catch(err => {
-//         res.status(500).json(err);
-//       });
-//   });
 
 router.get('/', (req, res) => {
-    db.getAll()
-    .then(prisoners => {
-        res.status(200).json(prisoners);
-    })
-    .catch(err => {
-        res.status(500).json(err);
-    });
+    // db.getAllPrisoners()
+    //     .then(prisoners => {
+    //         res.status(200).json(prisoners);
+    //     })
+    //     .catch(err => {
+    //         res.status(500).json(err);
+    //     });
+
+    // let prisonerArray = [];
+
+    // db.getAllPrisoners()
+    //     .then(prisonerList => {
+    //         prisonerList.map(prisoner => {
+    //             db.getByPrisonerId(prisoner.id)
+    //                 .then(newPrisoner => {
+    //                     prisonerArray.push(newPrisoner);
+    //                     // console.log('log2',prisonerArray);
+    //                 })
+    //         })
+    //     })
+    //     console.log(prisonerList)
+    //     res.status(200).json(prisonerArray);
 });
 
 router.post('/', (req, res) => {
