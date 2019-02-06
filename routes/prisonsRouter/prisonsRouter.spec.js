@@ -73,14 +73,14 @@ describe('prisonsRouter.js', () => {
     //     });
     // });
 
-    describe('POST to /api/prisons endpoint', () => {
-        it('should add a prison, respond with status 201 and the new id of the prison', async () => {
-            const prisonObj = { id: 1, name: "Test Prison", location: 55555, phoneNumber: "111-111-1111" };
+    // describe('POST to /api/prisons endpoint', () => {
+    //     it('should add a prison, respond with status 201 and the new id of the prison', async () => {
+    //         const prisonObj = { id: 1, name: "Test Prison", location: 55555, phoneNumber: "111-111-1111" };
 
-            const responsePost = await request(server).post('/api/prisons').send(prisonObj).set("Authorization", token);
+    //         const responsePost = await request(server).post('/api/prisons').send(prisonObj).set("Authorization", token);
             
-            expect(responsePost.status).toBe(201);
-        })
-    })
+    //         expect(responsePost.status).toBe(201);
+    //     })
+    // })
 
 });
