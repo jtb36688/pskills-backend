@@ -28,11 +28,11 @@ function insert(prisoner) {
         .then(id => (id ? getPrisonersByPrisonId(prisoner.prisonId): null));
 };
 
-function update(id, changes) {
+function update(id, changes, prisonId) {
     return db('prisoners')
       .where('id', id)
       .update(changes)
-      .then(count => (count > 0 ? getPrisonersByPrisonId(id) : null));
+      .then(count => (count > 0 ? getPrisonersByPrisonId(prisonId) : null));
   }
 
 function remove(id, prisonId) {

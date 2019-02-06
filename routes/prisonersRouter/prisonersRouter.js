@@ -53,9 +53,15 @@ router.put('/:id', protect, (req, res) => {
     const changes = req.body;
     const id = req.params.id;
 
-    db.update(id, changes)
-        .then(updatedPrisoner => {
-            res.status(202).send(updatedPrisoner);
+    db.getByPrisonerId(id)
+        .then(prisonerObj => {
+            db.update(id, changes, prisonerObj.prisonId)
+                .then(Prisoners => {
+                    res.status(202).json(Prisoners);
+                })
+                .catch(err => {
+                    res.status(500).json(err);
+                });
         })
         .catch(err => {
             res.status(500).json(err);
@@ -75,6 +81,9 @@ router.delete('/:id', protect, (req, res) => {
                     res.status(500).json(err);
                 });
         })
+        .catch(err => {
+            res.status(500).json(err);
+        });
 });
 
 module.exports = router;
