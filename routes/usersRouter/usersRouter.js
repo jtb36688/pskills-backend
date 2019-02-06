@@ -4,7 +4,6 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../../data/dbConfig.js');
-const { protected } = require('../../auth/protected');
 
 // ----- Routes -----
 router.post('/register', (req, res) => {
@@ -25,13 +24,12 @@ router.post('/register', (req, res) => {
 function generateToken(user) {
     const payload = {
         username: user.username,
-        department: user.department
     };
 
     const secret = process.env.JWT_SECRET;
 
     const options = {
-        expiresIn: '30m'
+        expiresIn: '60m'
     };
 
     return jwt.sign(payload, secret, options);

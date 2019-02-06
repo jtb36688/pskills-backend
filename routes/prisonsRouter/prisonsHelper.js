@@ -35,9 +35,9 @@ function insert(prison) {
 
 function update(id, changes) {
     return db('prisons')
-        .where('id', id)
-        .update(changes)
-        .then(count => (count > 0 ? getById(id) : null));
+      .where('id', id)
+      .update(changes)
+      .then(count => (count > 0 ? getByPrisonId(id) : null));
 };
 
 function remove(id) {

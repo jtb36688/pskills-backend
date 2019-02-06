@@ -18,19 +18,26 @@ function getAllPrisoners() {
     return db('prisoners')
 };
 
+function getPrisonersByPrisonId(prisonId) {
+    return db('prisoners').where('prisoners.prisonId', prisonId)
+};
+
 function insert(prisoner) {
     return db('prisoners')
         .insert(prisoner)
+        .then(id => (id ? getPrisonersByPrisonId(prisoner.prisonId): null));
 };
 
 function update(id, changes) {
     return db('prisoners')
-        .where('id', id)
-        .update(changes)
-};
+      .where('id', id)
+      .update(changes)
+      .then(count => (count > 0 ? getPrisonersByPrisonId(id) : null));
+  }
 
-function remove(id) {
+function remove(id, prisonId) {
     return db('prisoners')
         .where('id', id)
-        .del();
+        .del()
+        .then(count => (count > 0 ? getPrisonersByPrisonId(prisonId) : null));
 };
