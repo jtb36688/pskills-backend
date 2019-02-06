@@ -71,4 +71,4 @@ POST to /api/users/register
 POST to /api/users/login
 - logs the user in
 - Need to provide the username and password in the body
-- Need to provide the JSON Web Token in the Header. Get this with localStorage.get
+- Responds with an object that includes the prisonId of the user that logged in, and the JWT.
