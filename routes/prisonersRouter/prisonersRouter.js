@@ -38,8 +38,8 @@ router.post('/', protect, (req, res) => {
 
     if (name && prisonId) {
         db.insert(prisoner)
-            .then(newPrisoner => {
-                res.status(201).json(newPrisoner)
+            .then(prisoners => {
+                res.status(201).json(prisoners)
             })
             .catch(err => {
                 res.status(500).json(err);
@@ -65,13 +65,16 @@ router.put('/:id', protect, (req, res) => {
 router.delete('/:id', protect, (req, res) => {
     const id = req.params.id;
 
-    db.remove(id)
-        .then(count => {
-            res.status(200).json({ message: `${count} prisoner removed` });
+    db.getByPrisonerId(id)
+        .then(prisonerObj => {
+            db.remove(id, prisonerObj.prisonId)
+                .then(prisoners => {
+                    res.status(200).json(prisoners);
+                })
+                .catch(err => {
+                    res.status(500).json(err);
+                });
         })
-        .catch(err => {
-            res.status(500).json(err);
-        });
 });
 
 module.exports = router;
