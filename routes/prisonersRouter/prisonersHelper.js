@@ -6,6 +6,7 @@ module.exports = {
     getByPrisonerId,
     update,
     remove,
+    getPrisonersByPrisonId
 };
 
 function getByPrisonerId(id) {
