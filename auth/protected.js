@@ -9,8 +9,10 @@ module.exports = {
 
 // use this function as middleware on any routes that need to be protected
 function protect(req, res, next) {
-    const token = req.headers.authorization; //grabs the token from the request header. This token was originally sent to the client from the .post /api/login
+    const token = req.headers.authorization; //grabs the token from the request header. This token was originally sent to the client from the .post /api/users/login
 
+    console.log('TOKEN:', token);
+    
     if (token) {
         jwt.verify(token, jwtKey, (err, decodedToken) => {
             if (err) {

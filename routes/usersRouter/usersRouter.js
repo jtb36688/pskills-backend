@@ -13,8 +13,8 @@ router.post('/register', (req, res) => {
 
     db('users')
         .insert(userInfo)
-        .then(ids => {
-            res.status(201).json({ message: "You have successfully registered" });
+        .then(id => {
+            res.status(201).json(id);
         })
         .catch(err => {
             res.status(500).json({ error: "Something happened. You were not successfully registered" });
@@ -44,12 +44,22 @@ router.post('/login', (req, res) => {
         .then(user => {
             if (user && bcrypt.compareSync(creds.password, user.password)) {
                 const token = generateToken(user);
-                res.status(200).json({ message: `Welcome ${user.username}`, prisonId: user.prisonId, token });
+                res.status(200).json({ message: `Welcome ${user.username}`, id: user.id, token });
             } else {
                 res.status(401).json({ message: 'You are not authorized. Please try logging again.' });
             };
         })
         .catch(err => res.status(500).json(err));
+});
+
+router.get('/users', (req, res) => {
+    db('users')
+        .then(users => {
+            res.status(200).json(users);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        });
 });
 
 
