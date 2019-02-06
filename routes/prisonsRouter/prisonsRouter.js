@@ -33,6 +33,9 @@ router.post('/', protect, (req, res) => {
         .then(newPrison => {
             res.status(201).json(newPrison)
         })
+        .catch(err => {
+            res.status(500).json(err);
+        })
 });
 
 router.put('/:id', protect, (req, res) => {

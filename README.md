@@ -45,6 +45,9 @@ GET to /api/prisoners/:id
 - returns an object of one prisoner with the id provided
 - same keys as above
 
+GET to /api/prisoners/prison/:prisonId
+- returns an array of prisoner objects with the provided prisonId
+
 POST to /api/prisoners
 - Need to provide the name, prisonId, skills in the body
 - returns the new id of the prisoner
