@@ -24,7 +24,6 @@ router.post('/register', (req, res) => {
 function generateToken(user) {
     const payload = {
         username: user.username,
-        department: user.department
     };
 
     const secret = process.env.JWT_SECRET;
