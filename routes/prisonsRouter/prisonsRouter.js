@@ -31,7 +31,7 @@ router.post('/', protect, (req, res) => {
 
     db.insert(prisonInfo)
         .then(newPrison => {
-            res.status(201).json(newPrison)
+            res.status(201).json(newPrison);
         })
         .catch(err => {
             res.status(500).json(err);

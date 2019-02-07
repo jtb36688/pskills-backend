@@ -14,7 +14,7 @@ router.get('/:id', (req, res) => {
                 res.status(200).json(prisoner);
             } else {
                 res.status(404).json({ message: 'The prisoner does not exist. Please try again.' });
-            }
+            };
         })
         .catch(err => {
             res.status(500).json(err);
@@ -50,14 +50,14 @@ router.post('/', protect, (req, res) => {
     if (name && prisonId) {
         db.insert(prisoner)
             .then(prisoners => {
-                res.status(201).json(prisoners)
+                res.status(201).json(prisoners);
             })
             .catch(err => {
                 res.status(500).json(err);
-            })
+            });
     } else {
-        res.status(400).json({ message: "Prisoner not created. Please ensure you provide a name and prisonId." })
-    }
+        res.status(400).json({ message: "Prisoner not created. Please ensure you provide a name and prisonId." });
+    };
 });
 
 router.put('/:id', protect, (req, res) => {

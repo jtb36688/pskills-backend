@@ -1,5 +1,3 @@
-const request = require('supertest');
-
 const db = require('../../data/dbConfig');
 const prisonsHelper = require('./prisonsHelper.js');
 

@@ -34,7 +34,7 @@ function update(id, changes, prisonId) {
       .where('id', id)
       .update(changes)
       .then(count => (count > 0 ? getPrisonersByPrisonId(prisonId) : null));
-  }
+};
 
 function remove(id, prisonId) {
     return db('prisoners')

@@ -7,8 +7,10 @@ const configureMiddleware = require('../config/middleware.js');
 
 const server = express();
 
+// Pull in middleware helmet, json, cors
 configureMiddleware(server);
 
+// Routes
 server.use('/api/prisons', prisonsRouter);
 server.use('/api/prisoners', prisonersRouter);
 server.use('/api/users', usersRouter);
