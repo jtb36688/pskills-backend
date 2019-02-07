@@ -8,79 +8,62 @@ afterEach(async () => {
 });
 
 describe('prisonersHelper', () => {
-    // it('should insert the provided prisoner', async () => {
-    //     const newPrisoner = { id: 1, name: "Test Prison", location: 55555, phoneNumber: "111-111-1111"};
+    it('should insert the provided prisoner', async () => {
+        const newPrisoner = { name: "Test1 Prisoner", picture: null, prisonId: 1, availability: true, skills: "test skill" };
 
-    //     await prisonsHelper.insert(newPrison);
+        await prisonersHelper.insert(newPrisoner);
 
-    //     const prisons = await db('prisons');
+        const prisoners = await db('prisoners');
         
-    //     expect(prisons).toHaveLength(1);
-    // });
+        const expected = [{ id: 1, name: "Test1 Prisoner", picture: null, prisonId: 1, availability: 1, skills: "test skill" }];
+        
+        expect(prisoners).toHaveLength(1);
+        expect(prisoners).toEqual(expected);
+    });
 
-    // it('should return 2 prisons', async () => {
-    //     const newPrison1 = { id: 1, name: "Test Prison1", location: 55555, phoneNumber: "111-111-1111"};
-    //     const newPrison2 = { id: 2, name: "Test Prison2", location: 55555, phoneNumber: "111-111-1111"};
+    it('should return 2 prisoners', async () => {
+        const newPrisoner1 = { name: "Test1 Prisoner", picture: null, prisonId: 1, availability: true, skills: "test skill" };
+        const newPrisoner2 = { name: "Test2 Prisoner", picture: null, prisonId: 2, availability: true, skills: "test skill" };
 
-    //     await prisonsHelper.insert(newPrison1);
-    //     await prisonsHelper.insert(newPrison2);
+        await prisonersHelper.insert(newPrisoner1);
+        await prisonersHelper.insert(newPrisoner2);
 
-    //     const prisons = await db('prisons');
+        const prisoners = await db('prisoners');
 
-    //     const expected = [
-    //         { id: 1, name: "Test Prison1", location: 55555, phoneNumber: "111-111-1111"},
-    //         { id: 2, name: "Test Prison2", location: 55555, phoneNumber: "111-111-1111"}
-    //     ];
+        const expected = [
+            { id: 1, name: "Test1 Prisoner", picture: null, prisonId: 1, availability: 1, skills: "test skill" },
+            { id: 2, name: "Test2 Prisoner", picture: null, prisonId: 2, availability: 1, skills: "test skill" }
+        ];
 
-    //     expect(prisons).toHaveLength(2);
-    //     expect(prisons).toEqual(expected);
-    // });
+        expect(prisoners).toHaveLength(2);
+        expect(prisoners).toEqual(expected);
+    });
 
-    // it('should return all of the prisons', async () => {
-    //     const newPrison1 = { id: 1, name: "Test Prison1", location: 55555, phoneNumber: "111-111-1111"};
-    //     const newPrison2 = { id: 2, name: "Test Prison2", location: 55555, phoneNumber: "111-111-1111"};
+    it('should update the prisoner', async () => {
+        const newPrisoner = { name: "Test1 Prisoner", picture: null, prisonId: 1, availability: true, skills: "test skill" };
 
-    //     await prisonsHelper.insert(newPrison1);
-    //     await prisonsHelper.insert(newPrison2);
+        await prisonersHelper.insert(newPrisoner);
 
-    //     const prisons = await prisonsHelper.getAll();
+        const id = 1;
+        const prisonId = 1;
+        const changes = { name: "Edited Prisoner Name", availability: false, skills: "edited skillzzz" };
 
-    //     const expected = [
-    //         { id: 1, name: "Test Prison1", location: 55555, phoneNumber: "111-111-1111", totalPrisoners: 0},
-    //         { id: 2, name: "Test Prison2", location: 55555, phoneNumber: "111-111-1111", totalPrisoners: 0}
-    //     ];
+        const prisoner = await prisonersHelper.update(id, changes, prisonId);
 
-    //     expect(prisons).toHaveLength(2);
-    //     expect(prisons).toEqual(expected);
-    // });
+        const expected = [{ id: 1,name: "Edited Prisoner Name", picture: null, prisonId: 1, availability: 0, skills: "edited skillzzz" }];
 
-    // it('should update the prison', async () => {
-    //     const newPrison1 = { id: 1, name: "Test Prison1", location: 55555, phoneNumber: "111-111-1111"};
+        expect(prisoner).toEqual(expected);
+    });
 
-    //     await prisonsHelper.insert(newPrison1);
+    it('should remove the prisoner', async () => {
+        const newPrisoner = { name: "Test1 Prisoner", picture: null, prisonId: 1, availability: true, skills: "test skill" };
 
-    //     const id = 1;
-    //     const changes = {name: "Test Prison2", location: 11111}
+        await prisonersHelper.insert(newPrisoner);
 
-    //     const prison = await prisonsHelper.update(id, changes);
+        const id = 1;
+        const prisonId = newPrisoner.prisonId;
+        const prisoner = await prisonersHelper.remove(id, prisonId);
 
-    //     const expected = { id: 1, name: "Test Prison2", location: 11111, phoneNumber: "111-111-1111", prisoners: []};
-
-    //     expect(prison).toEqual(expected);
-    // });
-
-    // it('should remove the prison', async () => {
-    //     const newPrison1 = { id: 1, name: "Test Prison1", location: 55555, phoneNumber: "111-111-1111"};
-
-    //     await prisonsHelper.insert(newPrison1);
-
-    //     const id = 1;
-    //     const prison = await prisonsHelper.remove(id);
-
-    //     expect(prison).toBe(1);
-
-    //     const prisonsArray = await prisonsHelper.getAll();
-
-    //     expect(prisonsArray).toEqual([]);
-    // });
+        expect(prisoner).toHaveLength(0);
+    });
 });
