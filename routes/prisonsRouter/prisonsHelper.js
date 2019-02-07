@@ -25,7 +25,7 @@ function getByPrisonId(id) {
 };
 
 function getAll() {
-    return db.raw(`SELECT p.*, (SELECT count(*) FROM prisoners as pr WHERE pr.prisonId = p.id) as totalPrisoners FROM prisons as p`)
+    return db.raw(`SELECT p.*, (SELECT count(*) FROM prisoners as pr WHERE pr.prisonId = p.id) as totalPrisoners FROM prisons as p`);
 };
 
 function insert(prison) {

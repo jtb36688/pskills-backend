@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const db = require('../../data/dbConfig.js');
+const { generateToken } = require('../../auth/protected');
 
 // ----- Routes -----
 router.post('/register', (req, res) => {
@@ -20,20 +20,6 @@ router.post('/register', (req, res) => {
             res.status(500).json({ error: "Something happened. You were not successfully registered" });
         });
 });
-
-function generateToken(user) {
-    const payload = {
-        username: user.username,
-    };
-
-    const secret = process.env.JWT_SECRET;
-
-    const options = {
-        expiresIn: '60m'
-    };
-
-    return jwt.sign(payload, secret, options);
-};
 
 router.post('/login', (req, res) => {
     const creds = req.body;
@@ -61,6 +47,5 @@ router.get('/users', (req, res) => {
             res.status(500).json(err);
         });
 });
-
 
 module.exports = router;
