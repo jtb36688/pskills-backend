@@ -5,6 +5,10 @@ afterEach(async () => {
     await db('prisons').truncate();
 });
 
+afterEach(async () => {
+    await db('prisoners').truncate();
+});
+
 describe('prisonsHelper', () => {
     it('should insert the provided prison', async () => {
         const newPrison = { id: 1, name: "Test Prison", location: 55555, phoneNumber: "111-111-1111"};

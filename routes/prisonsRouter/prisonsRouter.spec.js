@@ -12,6 +12,10 @@ afterEach(async () => {
     await db('users').truncate();
 });
 
+afterEach(async () => {
+    await db('prisoners').truncate();
+});
+
 // Generate a token to be used in testing POST, PUT, DELETE
 let token;
 
